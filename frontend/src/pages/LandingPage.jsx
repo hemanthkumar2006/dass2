@@ -38,8 +38,8 @@ function Nav() {
             display: "flex", alignItems: "center", justifyContent: "space-between",
         }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <div style={{ width: 30, height: 30, background: "linear-gradient(135deg,#7c3aed,#5b21b6)", borderRadius: 7, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, color: "#fff" }}>✦</div>
-                <span style={{ fontSize: 17, fontWeight: 700, color: "#fff", letterSpacing: 0.5 }}>AURA</span>
+                <img src="/orion-logo.png" alt="Orion" style={{ width: 30, height: 30, borderRadius: 6 }} />
+                <span style={{ fontSize: 17, fontWeight: 700, color: "#fff", letterSpacing: 0.5 }}>Orion</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <Link to="/login" style={{ padding: "8px 18px", borderRadius: 8, color: "#a78bfa", textDecoration: "none", fontSize: 14, fontWeight: 500 }}>Sign in</Link>
@@ -71,7 +71,7 @@ function Hero({ home }) {
                     </span>
                 </h1>
                 <p style={{ fontSize: 18, color: "#94a3b8", lineHeight: 1.7, marginBottom: 44, maxWidth: 560, margin: "0 auto 44px" }}>
-                    {home?.tagline || "AURA automates your sales and customer engagement with production-ready AI agents that work 24/7 across WhatsApp, email, and more."}
+                    {home?.tagline || "Orion automates your sales and customer engagement with production-ready AI agents that work 24/7 across WhatsApp, email, and more."}
                 </p>
                 <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
                     <Link to="/signup" style={{ padding: "14px 36px", borderRadius: 10, background: "linear-gradient(135deg,#7c3aed,#6d28d9)", color: "#fff", textDecoration: "none", fontSize: 16, fontWeight: 700, boxShadow: "0 8px 32px rgba(124,58,237,0.5)", letterSpacing: 0.3 }}>
@@ -191,9 +191,9 @@ function Pricing({ pricing }) {
 function FAQs({ faqs }) {
     const [open, setOpen] = useState(null);
     const defaults = [
-        { question: "How quickly can I set up AURA?", answer: "Most businesses are up and running in under 3 minutes. Connect your WhatsApp number, configure your AI agent's personality and knowledge base, and you're live." },
-        { question: "Does AURA work with existing CRM systems?", answer: "Yes, AURA integrates with popular CRMs like HubSpot, Salesforce, and Pipedrive via our API. Custom integrations are available on Enterprise plans." },
-        { question: "What happens when the AI can't answer a question?", answer: "AURA intelligently escalates conversations to your human team when it detects complex queries outside its knowledge base, ensuring customers always get the right help." },
+        { question: "How quickly can I set up Orion?", answer: "Most businesses are up and running in under 3 minutes. Connect your WhatsApp number, configure your AI agent's personality and knowledge base, and you're live." },
+        { question: "Does Orion work with existing CRM systems?", answer: "Yes, Orion integrates with popular CRMs like HubSpot, Salesforce, and Pipedrive via our API. Custom integrations are available on Enterprise plans." },
+        { question: "What happens when the AI can't answer a question?", answer: "Orion intelligently escalates conversations to your human team when it detects complex queries outside its knowledge base, ensuring customers always get the right help." },
     ];
     const items = (faqs && faqs.length > 0) ? faqs : defaults;
 
@@ -223,7 +223,7 @@ function FAQs({ faqs }) {
 /* ── Testimonials ─────────────────────────────────────────────────── */
 function Testimonials({ testimonials }) {
     const defaults = [
-        { author_name: "Sarah Chen", author_title: "Growth Lead @ TechFlow", content: "AURA's WhatsApp AI closed 3x more leads in the first week. Absolutely transformative for our sales pipeline.", rating: 5 },
+        { author_name: "Sarah Chen", author_title: "Growth Lead @ TechFlow", content: "Orion's WhatsApp AI closed 3x more leads in the first week. Absolutely transformative for our sales pipeline.", rating: 5 },
         { author_name: "Marcus Williams", author_title: "Founder @ ShopLocal", content: "Setting up took 2 minutes. The AI handles 80% of customer queries autonomously. My team finally has time to focus on growth.", rating: 5 },
         { author_name: "Priya Patel", author_title: "Head of CX @ FinBridge", content: "The analytics dashboard alone is worth it. We finally understand where customers drop off and can fix it instantly.", rating: 5 },
     ];
@@ -258,7 +258,7 @@ function CTABanner() {
                 <span style={{ background: "linear-gradient(135deg,#a78bfa,#7c3aed)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Your Revenue Today</span>
             </h2>
             <p style={{ fontSize: 16, color: "#a78bfa", marginBottom: 40, maxWidth: 480, margin: "0 auto 40px" }}>
-                Join 10,000+ businesses using AURA to turn conversations into conversions.
+                Join 10,000+ businesses using Orion to turn conversations into conversions.
             </p>
             <Link to="/signup" style={{ display: "inline-block", padding: "16px 48px", borderRadius: 12, background: "linear-gradient(135deg,#7c3aed,#6d28d9)", color: "#fff", textDecoration: "none", fontSize: 17, fontWeight: 700, boxShadow: "0 8px 40px rgba(124,58,237,0.6)", letterSpacing: 0.3 }}>
                 Get Started Free →
@@ -273,9 +273,9 @@ function Footer() {
         <footer style={{ background: "#050308", borderTop: "1px solid rgba(124,58,237,0.1)", padding: "40px 80px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <div style={{ width: 26, height: 26, background: "linear-gradient(135deg,#7c3aed,#5b21b6)", borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, color: "#fff" }}>✦</div>
-                <span style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>AURA</span>
+                <span style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>Orion</span>
             </div>
-            <div style={{ fontSize: 12, color: "#374151" }}>© {new Date().getFullYear()} AURA. All rights reserved.</div>
+            <div style={{ fontSize: 12, color: "#374151" }}>© {new Date().getFullYear()} Orion. All rights reserved.</div>
             <div style={{ display: "flex", gap: 20 }}>
                 {["Privacy", "Terms", "Contact"].map(l => <a key={l} href="#" style={{ fontSize: 12, color: "#4b5563", textDecoration: "none" }}>{l}</a>)}
             </div>
@@ -294,7 +294,7 @@ export default function LandingPage() {
                 <div style={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", color: "#6b7280", fontSize: 14 }}>
                     <div style={{ textAlign: "center" }}>
                         <div style={{ width: 36, height: 36, border: "3px solid rgba(124,58,237,0.3)", borderTopColor: "#7c3aed", borderRadius: "50%", animation: "spin 0.8s linear infinite", margin: "0 auto 12px" }} />
-                        Loading AURA…
+                        Loading Orion…
                     </div>
                     <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
                 </div>

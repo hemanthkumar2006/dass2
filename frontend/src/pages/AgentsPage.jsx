@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+import { useParams, useSearchParams } from "react-router-dom";
 import { useBusiness } from "../api/businessContext";
 import {
   getAgent,
@@ -238,7 +239,7 @@ function OverviewTab({ agent, onSave }) {
               <label style={{ fontSize: 12, fontWeight: 600, color: "var(--muted)", display: "block", marginBottom: 6 }}>
                 Assistant Name <span style={{ color: "var(--accent)" }}>*</span>
               </label>
-              <input style={s.input} value={form.assistantName} onChange={e => update("assistantName", e.target.value)} placeholder="e.g. AURA Assistant" />
+              <input style={s.input} value={form.assistantName} onChange={e => update("assistantName", e.target.value)} placeholder="e.g. Orion Assistant" />
             </div>
             <div>
               <label style={{ fontSize: 12, fontWeight: 600, color: "var(--muted)", display: "block", marginBottom: 6 }}>Tagline</label>
@@ -250,7 +251,7 @@ function OverviewTab({ agent, onSave }) {
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
             <div>
               <label style={{ fontSize: 12, fontWeight: 600, color: "var(--muted)", display: "block", marginBottom: 6 }}>Company Name <span style={{ color: "var(--accent)" }}>*</span></label>
-              <input style={s.input} value={form.companyName} onChange={e => update("companyName", e.target.value)} placeholder="e.g. AURA Inc." />
+              <input style={s.input} value={form.companyName} onChange={e => update("companyName", e.target.value)} placeholder="e.g. Orion Inc." />
             </div>
             <div>
               <label style={{ fontSize: 12, fontWeight: 600, color: "var(--muted)", display: "block", marginBottom: 6 }}>Website</label>
@@ -593,8 +594,11 @@ function LinksTab({ agent, onSave, onToast }) {
 
 /* ─── MAIN PAGE ─────────────────────────────────────────────── */
 export default function AgentsPage() {
-  const [activeTab, setActiveTab] = useState("overview");
+  const { tab = "overview" } = useParams();
+  const [searchParams] = useSearchParams();
+  const activeTab = tab;
   const { businessId } = useBusiness();
+  const searchQuery = searchParams.get("q") || "";
   const [agent, setAgent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState({ msg: "", type: "success" });
@@ -646,20 +650,6 @@ export default function AgentsPage() {
 
   return (
     <div style={s.page}>
-      {/* Tab bar */}
-      <div style={s.tabs}>
-        {TABS.map(tab => {
-          const Icon = tab.icon;
-          const isActive = activeTab === tab.id;
-          return (
-            <button key={tab.id} style={{ ...s.tab, ...(isActive ? s.tabActive : {}) }} onClick={() => setActiveTab(tab.id)}>
-              <Icon />
-              {tab.label}
-            </button>
-          );
-        })}
-      </div>
-
       {/* Tab content */}
       {activeTab === "overview" && <OverviewTab agent={agent} onSave={handleSave} />}
       {activeTab === "knowledge" && <KnowledgeBaseTab agent={agent} onToast={showToast} />}

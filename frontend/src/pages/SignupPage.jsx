@@ -27,7 +27,7 @@ export default function SignupPage() {
         const initGoogle = () => {
             if (window.google?.accounts?.id && googleBtnRef.current) {
                 window.google.accounts.id.initialize({
-                    client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+                    client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
                     callback: handleGoogleResponse,
                 });
                 window.google.accounts.id.renderButton(googleBtnRef.current, {
@@ -88,19 +88,19 @@ export default function SignupPage() {
             <div style={s.left}>
                 {/* Brand — links to landing page */}
                 <Link to="/" style={{ ...s.brand, textDecoration: "none" }}>
-                    <div style={s.brandIcon}>✦</div>
-                    <span style={s.brandName}>AURA</span>
+                    <img src="/orion-logo.png" alt="Orion" style={{ width: 34, height: 34, borderRadius: 8 }} />
+                    <span style={s.brandName}>Orion</span>
                 </Link>
 
                 <div style={s.leftContent}>
-                    <h1 style={s.headline}>Design the future<br />with AURA</h1>
+                    <h1 style={s.headline}>Design the future<br />with Orion</h1>
                     <p style={s.desc}>
                         Experience the power of production-ready AI with our glassmorphic
                         interface and deep violet aesthetics.
                     </p>
 
                     <div style={s.imgWrap}>
-                        <img src="/hero-mountain.png" alt="AURA landscape" style={s.img} />
+                        <img src="/hero-mountain.png" alt="Orion landscape" style={s.img} />
                     </div>
 
                     <div style={s.social}>

@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import IntentBadge from "../components/IntentBadge";
 import { useBusiness } from "../api/businessContext";
 import { getConversations } from "../api/client";
@@ -40,9 +40,10 @@ function getInitials(name, phone) {
 
 export default function ConversationsPage() {
   const { businessId } = useBusiness();
+  const [searchParams] = useSearchParams();
   const [conversations, setConversations] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(() => searchParams.get("q") || "");
 
   const load = useCallback(() => {
     if (!businessId) return;

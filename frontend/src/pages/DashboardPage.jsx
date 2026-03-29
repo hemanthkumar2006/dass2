@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import StatCard from "../components/StatCard";
 import IntentBadge from "../components/IntentBadge";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useBusiness } from "../api/businessContext";
 import { getConversations } from "../api/client";
 
@@ -75,8 +75,10 @@ function relativeTime(isoStr) {
 
 export default function DashboardPage() {
   const { businessId } = useBusiness();
+  const [searchParams] = useSearchParams();
   const [conversations, setConversations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const searchQuery = searchParams.get("q") || "";
 
   const load = useCallback(() => {
     if (!businessId) return;
@@ -93,14 +95,24 @@ export default function DashboardPage() {
     return () => clearInterval(interval);
   }, [load]);
 
-  const total = conversations.length;
-  const escalated = conversations.filter(c => c.status === "escalated").length;
-  const booked = conversations.filter(c => c.status === "booked").length;
+  // Filter conversations by search query
+  const filteredConversations = searchQuery
+    ? conversations.filter(c => {
+        const name = (c.display_name || "").toLowerCase();
+        const phone = (c.phone_number || "").toLowerCase();
+        const query = searchQuery.toLowerCase();
+        return name.includes(query) || phone.includes(query);
+      })
+    : conversations;
+
+  const total = filteredConversations.length;
+  const escalated = filteredConversations.filter(c => c.status === "escalated").length;
+  const booked = filteredConversations.filter(c => c.status === "booked").length;
   const escRate = total > 0 ? Math.round((escalated / total) * 100) : 0;
   const highIntentPct = total > 0 ? Math.round(((escalated + booked) / total) * 100) : 0;
 
   // Show top 10 leads in live feed
-  const leads = conversations.slice(0, 10);
+  const leads = filteredConversations.slice(0, 10);
 
   return (
     <div className="stack">

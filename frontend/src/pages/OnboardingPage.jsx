@@ -68,8 +68,8 @@ export default function OnboardingPage() {
             <div style={s.container}>
                 {/* Brand */}
                 <Link to="/" style={{ ...s.brand, textDecoration: "none" }}>
-                    <div style={s.brandIcon}>✦</div>
-                    <span style={s.brandName}>AURA</span>
+                    <img src="/orion-logo.png" alt="Orion" style={{ width: 34, height: 34, borderRadius: 8 }} />
+                    <span style={s.brandName}>Orion</span>
                 </Link>
 
                 {/* Card */}

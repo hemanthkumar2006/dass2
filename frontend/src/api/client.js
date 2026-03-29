@@ -1,8 +1,7 @@
-// AURA API Client
-// CRA uses REACT_APP_ prefix; Vite uses VITE_ prefix.
-// This project uses react-scripts (CRA), so we use process.env.REACT_APP_API_BASE.
+// Orion API Client
+// Vite uses import.meta.env with VITE_ prefix
 export const API_BASE =
-  process.env.REACT_APP_API_BASE || "http://localhost:3000/api";
+  import.meta.env.VITE_API_BASE || "http://localhost:3000/api";
 
 // ─── Auth header helper ──────────────────────────────────────────
 export function getAuthHeader() {
@@ -49,6 +48,13 @@ export async function getMe() {
 export async function getBusinesses() {
   const res = await apiGet("/businesses");
   return res.data || [];
+}
+
+/** Returns a single business object by ID */
+export async function getBusinessById(id) {
+  if (!id) return null;
+  const res = await apiGet(`/businesses/${id}`);
+  return res.data || null;
 }
 
 /**
@@ -198,4 +204,105 @@ export async function deleteAgentDocument(agentId, docId) {
     throw new Error(err.error || err.message || `DELETE failed: ${res.status}`);
   }
   return (await res.json()).data;
+}
+
+// ─── Calendly Integration ────────────────────────────────────────────────────
+
+export async function getCalendlyOAuthUrl(businessId) {
+  const res = await apiGet(`/calendly/oauth/url?business_id=${businessId}`);
+  return res.url;
+}
+
+export async function getCalendlyStatus(businessId) {
+  const res = await fetch(`${API_BASE}/calendly/status?business_id=${businessId}`, {
+    headers: { ...getAuthHeader() },
+  });
+  if (!res.ok) return { connected: false };
+  return res.json();
+}
+
+export async function getCalendlyEventTypes(businessId) {
+  const res = await apiGet(`/calendly/event-types?business_id=${businessId}`);
+  return res.data || [];
+}
+
+export async function setCalendlyEventType(businessId, eventType) {
+  return apiPost('/calendly/settings', {
+    business_id: businessId,
+    event_type_uri: eventType.uri,
+    event_type_name: eventType.name,
+    scheduling_url: eventType.scheduling_url,
+  });
+}
+
+export async function disconnectCalendly(businessId) {
+  const res = await fetch(`${API_BASE}/calendly/disconnect?business_id=${businessId}`, {
+    method: 'DELETE',
+    headers: { ...getAuthHeader() },
+  });
+  if (!res.ok) throw new Error('Failed to disconnect Calendly');
+  return res.json();
+}
+
+export async function getCalendlyBookings(businessId) {
+  const res = await apiGet(`/calendly/bookings?business_id=${businessId}`);
+  return res.data || [];
+}
+
+// ─── Google Calendar Integration ─────────────────────────────────────────────
+
+export async function getGCalOAuthUrl(businessId) {
+  const res = await apiGet(`/gcal/oauth/url?business_id=${businessId}`);
+  return res.url;
+}
+
+export async function getGCalStatus(businessId) {
+  const res = await fetch(`${API_BASE}/gcal/status?business_id=${businessId}`, {
+    headers: { ...getAuthHeader() },
+  });
+  if (!res.ok) return { connected: false };
+  return res.json();
+}
+
+export async function getGCalCalendars(businessId) {
+  const res = await apiGet(`/gcal/calendars?business_id=${businessId}`);
+  return res.data || [];
+}
+
+export async function setGCalCalendar(businessId, calendar) {
+  return apiPost('/gcal/settings', {
+    business_id: businessId,
+    calendar_id: calendar.id,
+    calendar_name: calendar.summary,
+  });
+}
+
+export async function disconnectGCal(businessId) {
+  const res = await fetch(`${API_BASE}/gcal/disconnect?business_id=${businessId}`, {
+    method: 'DELETE',
+    headers: { ...getAuthHeader() },
+  });
+  if (!res.ok) throw new Error('Failed to disconnect Google Calendar');
+  return res.json();
+}
+
+// ─── Google Calendar Booking ─────────────────────────────────────────────────
+
+export async function bookGCalSlot(businessId, calendarId, title, datetime) {
+  return apiPost('/gcal/book-slot', {
+    business_id: businessId,
+    calendar_id: calendarId,
+    title,
+    datetime,
+  });
+}
+
+export async function getAvailableGCalSlots(businessId, days = 7) {
+  const res = await apiGet(`/gcal/available-slots?business_id=${businessId}&days=${days}`);
+  return res.data || [];
+}
+
+export async function getGCalBookings(businessId, days = 30) {
+  const res = await apiGet(`/gcal/bookings?business_id=${businessId}&days=${days}`);
+  return res.data || [];
 }

@@ -220,7 +220,7 @@ export default function ConversationDetailPage() {
                         <div className="bubbleFrom">
                           {formatTime(m.created_at)} &nbsp;
                           <span style={{ fontWeight: 700, color: "var(--accent)" }}>
-                            {m.sender_type === "ai" ? "AURA Engine" : "Agent"}
+                            {m.sender_type === "ai" ? "Orion Engine" : "Agent"}
                           </span>
                           {m.sender_type === "ai" && <span className="aiBadge">AI</span>}
                         </div>

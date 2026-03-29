@@ -32,7 +32,7 @@ export default function ProtectedRoute() {
                         animation: "spin 0.8s linear infinite",
                         margin: "0 auto 12px",
                     }} />
-                    <div style={{ letterSpacing: 2, fontSize: 11, textTransform: "uppercase" }}>Loading AURA…</div>
+                    <div style={{ letterSpacing: 2, fontSize: 11, textTransform: "uppercase" }}>Loading Orion…</div>
                 </div>
                 <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
             </div>

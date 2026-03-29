@@ -6,6 +6,9 @@ export default defineConfig({
   resolve: {
     extensions: ['.jsx', '.js', '.tsx', '.ts', '.json'],
   },
+  build: {
+    outDir: 'build',
+  },
   server: {
     port: 3000,
     proxy: {

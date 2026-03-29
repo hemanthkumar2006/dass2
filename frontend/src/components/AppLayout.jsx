@@ -489,7 +489,7 @@ export default function AppLayout() {
       {/* ── Sidebar ──────────────────────────────────── */}
       <aside className="sidebar">
         <div className="brand">
-          <div className="brandIcon">✦</div>
+          <img src="/orion-logo.png" alt="Orion" className="brandIcon" style={{ width: 36, height: 36, borderRadius: 6, objectFit: 'cover' }} />
           <div>
             <div className="brandName">Orion <span style={{ color: "var(--accent)" }}>AI</span></div>
             <div className="brandSub">Autonomous</div>
@@ -675,9 +675,6 @@ export default function AppLayout() {
                 )}
                 {page.actions === "agents" && (
                   <button className="btn btn-primary">+ Create New Agent</button>
-                )}
-                {page.actions === "analytics" && (
-                  <button className="btn btn-primary">+ New Agent</button>
                 )}
               </div>
             </div>

@@ -50,10 +50,14 @@ export default function LoginPage() {
         setError("");
         setLoading(true);
         try {
+            if (!response.credential) {
+                throw new Error("No credential from Google");
+            }
             await googleAuth(response.credential);
             navigate("/dashboard", { replace: true });
         } catch (err) {
-            setError(err.message);
+            console.error("Google auth error:", err);
+            setError(err.message || "Google authentication failed");
         } finally {
             setLoading(false);
         }
@@ -67,7 +71,8 @@ export default function LoginPage() {
             await login(email, password);
             navigate("/dashboard", { replace: true });
         } catch (err) {
-            setError(err.message);
+            console.error("Login error:", err);
+            setError(err.message || "Failed to sign in. Please check your credentials and try again.");
         } finally {
             setLoading(false);
         }

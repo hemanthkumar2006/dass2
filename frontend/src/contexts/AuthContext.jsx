@@ -49,47 +49,82 @@ export function AuthProvider({ children }) {
 
     /** Login with email + password */
     const login = useCallback(async (email, password) => {
-        const res = await fetch(`${API_BASE}/auth/signin`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password }),
-        });
-        const data = await res.json();
-        if (!data.success) throw new Error(data.message || "Login failed");
-        _saveToken(data.token, data.user);
-        return data.user;
+        try {
+            const res = await fetch(`${API_BASE}/auth/signin`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
+            });
+            
+            if (!res.ok) {
+                throw new Error(`Server error: ${res.status}`);
+            }
+            
+            const data = await res.json();
+            if (!data.success) throw new Error(data.message || "Login failed");
+            _saveToken(data.token, data.user);
+            return data.user;
+        } catch (err) {
+            console.error("Login API error:", err);
+            if (err.message.includes("Failed to fetch")) {
+                throw new Error("Cannot connect to server. Please check your internet connection.");
+            }
+            throw err;
+        }
     }, []);
 
     /** Signup with email + password + optional name */
     const signup = useCallback(async (email, password, name) => {
-        const res = await fetch(`${API_BASE}/auth/signup`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password, name }),
-        });
-        const data = await res.json();
-        if (!data.success) {
-            // Show detailed validation errors if available
-            if (data.errors && data.errors.length > 0) {
-                throw new Error(data.errors.map(e => e.message).join('. '));
+        try {
+            const res = await fetch(`${API_BASE}/auth/signup`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password, name }),
+            });
+            
+            if (!res.ok) {
+                throw new Error(`Server error: ${res.status}`);
             }
-            throw new Error(data.message || "Signup failed");
+            
+            const data = await res.json();
+            if (!data.success) {
+                // Show detailed validation errors if available
+                if (data.errors && data.errors.length > 0) {
+                    throw new Error(data.errors.map(e => e.message).join('. '));
+                }
+                throw new Error(data.message || "Signup failed");
+            }
+            _saveToken(data.token, data.user);
+            return data.user;
+        } catch (err) {
+            console.error("Signup API error:", err);
+            if (err.message.includes("Failed to fetch")) {
+                throw new Error("Cannot connect to server. Please check your internet connection.");
+            }
+            throw err;
         }
-        _saveToken(data.token, data.user);
-        return data.user;
     }, []);
 
     /** Google OAuth — pass the credential JWT from Google Identity Services */
     const googleAuth = useCallback(async (credential) => {
-        const res = await fetch(`${API_BASE}/auth/google`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ credential }),
-        });
-        const data = await res.json();
-        if (!data.success) throw new Error(data.message || "Google auth failed");
-        _saveToken(data.token, data.user);
-        return data.user;
+        try {
+            const res = await fetch(`${API_BASE}/auth/google`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ credential }),
+            });
+            const data = await res.json();
+            if (!data.success) {
+                const errorMsg = data.message || "Google auth failed";
+                console.error("Google auth response error:", errorMsg, data);
+                throw new Error(errorMsg);
+            }
+            _saveToken(data.token, data.user);
+            return data.user;
+        } catch (err) {
+            console.error("Google auth fetch error:", err);
+            throw err;
+        }
     }, []);
 
     /** Logout — clear token and user */

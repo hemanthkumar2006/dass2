@@ -18,6 +18,7 @@ import SettingsPage from "./pages/SettingsPage";
 import ExternalConnectivitiesPage from "./pages/ExternalConnectivitiesPage";
 import BotTypesPage from "./pages/BotTypesPage";
 import CampaignsPage from "./pages/CampaignsPage";
+import VoiceCallsPage from "./pages/VoiceCallsPage";
 
 export default function App() {
   return (
@@ -50,6 +51,7 @@ export default function App() {
                   <Route path="/external-connectivities" element={<ExternalConnectivitiesPage />} />
                   <Route path="/bot-types" element={<BotTypesPage />} />
                   <Route path="/settings" element={<SettingsPage />} />
+                  <Route path="/voice-calls" element={<VoiceCallsPage />} />
                 </Route>
               </Route>
 

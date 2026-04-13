@@ -306,3 +306,63 @@ export async function getGCalBookings(businessId, days = 30) {
   const res = await apiGet(`/gcal/bookings?business_id=${businessId}&days=${days}`);
   return res.data || [];
 }
+
+// ─── Voice Calls (AI Phone Agent) ────────────────────────────────────────────
+
+/** Get voice agent configuration */
+export async function getVoiceConfig() {
+  const res = await apiGet("/voice/config");
+  return res.data || {};
+}
+
+/** Get raw voice config (with actual values for forms) */
+export async function getVoiceConfigRaw() {
+  const res = await apiGet("/voice/config");
+  return res.raw || res.data || {};
+}
+
+/** Update voice agent configuration */
+export async function updateVoiceConfig(data) {
+  return apiPost("/voice/config", data);
+}
+
+/** Dispatch a single outbound call */
+export async function makeVoiceCall(phone) {
+  return apiPost("/voice/call/single", { phone });
+}
+
+/** Dispatch bulk outbound calls */
+export async function makeBulkVoiceCalls(numbers) {
+  return apiPost("/voice/call/bulk", { numbers });
+}
+
+/** Fetch voice call logs */
+export async function getVoiceLogs() {
+  const res = await apiGet("/voice/logs");
+  return res.data || [];
+}
+
+/** Fetch voice call stats */
+export async function getVoiceStats() {
+  const res = await apiGet("/voice/stats");
+  return res.data || { total_calls: 0, total_bookings: 0, avg_duration: 0, booking_rate: 0 };
+}
+
+/** Fetch voice bookings */
+export async function getVoiceBookings() {
+  const res = await apiGet("/voice/bookings");
+  return res.data || [];
+}
+
+/** Fetch voice CRM contacts */
+export async function getVoiceContacts() {
+  const res = await apiGet("/voice/contacts");
+  return res.data || [];
+}
+
+/** Voice system health check */
+export async function getVoiceHealth() {
+  const res = await apiGet("/voice/health");
+  return res;
+}
+
